@@ -7,7 +7,8 @@ const modalWindow = document.querySelector(".lightbox");
 function createGallery(parentElement, pictureBox) {
   const domElement = pictureBox.reduce(
     (domElement, element) =>
-      (domElement += `<li class="gallery__item">
+      (domElement += `<li 
+      class="gallery__item">
       <a
   class="gallery__link"
   href='#'
@@ -28,16 +29,16 @@ function createGallery(parentElement, pictureBox) {
   );
   parentElement.insertAdjacentHTML("beforeend", domElement);
 }
-function bigPicture(elem) {
+function bigPicture({ target }) {
   modalWindow.classList.replace("lightbox", "is-open");
-  modalPicture.setAttribute("src", `${elem.target.dataset.source}`);
-  modalPicture.setAttribute("alt", `${elem.target.alt}`);
+  modalPicture.setAttribute("src", `${target.dataset.source}`);
+  modalPicture.setAttribute("alt", `${target.alt}`);
 }
-const closeModWindow = elem => {
+function closeModWindow(elem) {
   elem.target.closest(".is-open").classList.replace("is-open", "lightbox");
   modalPicture.setAttribute("src", "");
   modalPicture.setAttribute("alt", "");
-};
+}
 
 createGallery(gallery, pictures);
 gallery.addEventListener("click", bigPicture);
