@@ -5,9 +5,9 @@ const modalPicture = document.querySelector(".lightbox___image");
 const modalWindow = document.querySelector(".lightbox");
 
 function createGallery(parentElement, pictureBox) {
-  pictureBox
-    .map(element => {
-      return `<li class="gallery__item">
+  const domElement = pictureBox.reduce(
+    (domElement, element) =>
+      (domElement += `<li class="gallery__item">
       <a
   class="gallery__link"
   href='#'
@@ -23,20 +23,21 @@ function createGallery(parentElement, pictureBox) {
   </span>
 </a>
 </li>
-`;
-    })
-    .forEach(element => {
-      parentElement.insertAdjacentHTML("beforeend", element);
-    });
+`),
+    ""
+  );
+  parentElement.insertAdjacentHTML("beforeend", domElement);
 }
 function bigPicture(elem) {
   modalWindow.classList.replace("lightbox", "is-open");
-  modalPicture
-    .setAttribute("src", `${elem.target.dataset.source}`)
-    .setAttribute("alt", `${elem.target.alt}`);
+  modalPicture.setAttribute("src", `${elem.target.dataset.source}`);
+  modalPicture.setAttribute("alt", `${elem.target.alt}`);
 }
-const closeModWindow = elem =>
+const closeModWindow = elem => {
   elem.target.closest(".is-open").classList.replace("is-open", "lightbox");
+  modalPicture.setAttribute("src", "");
+  modalPicture.setAttribute("alt", "");
+};
 
 createGallery(gallery, pictures);
 gallery.addEventListener("click", bigPicture);
